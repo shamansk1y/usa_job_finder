@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col"><h2 class=" text-center my-3">This is a non-commercial service for collecting and distributing vacancies, developed for demonstration purposes.</h2>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-8 mx-auto my-2">
+        <p class="">
+            Every day we analyze sites with vacancies, according to the settings of our subscribers. All suitable
+            vacancies that have been published on these sites over the past 24 hours are recorded in the database
+            and sent to subscribers according to their preferences. You can browse current vacancies by simply
+            selecting the required city or specialty. Or, after completing a simple
+            <a href="{% url 'accounts:register' %}"> registration</a>,
+            you will receive a letter every day with a list of new vacancies for the last 24 hours, according to
+            your needs.
+            The service is currently checking relevant vacancies on websites:
+            indeed, linkedin, zip_recruiter, dice, ladders, flexjobs , builtin, themuse
+        </p>
+    <form method="GET" action="{% url 'list' %}">
+        <div class="form-group">
+        {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Find</button>
+    </form>
+    </div>
+</div>
+
+{% endblock %}
