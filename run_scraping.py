@@ -21,9 +21,9 @@ User = get_user_model()
 parsers = (
     (indeed, 'indeed'),
     (linkedin, 'linkedin'),
-    (zip_recruiter, 'zip_recruiter'),
+    # (zip_recruiter, 'zip_recruiter'),
     (dice, 'dice'),
-    (ladders, 'ladders'),
+    # (ladders, 'ladders'),
     (flexjobs, 'flexjobs'),
     (builtin, 'builtin'),
     (themuse, 'themuse')
