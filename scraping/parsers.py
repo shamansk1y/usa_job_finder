@@ -7,8 +7,8 @@ import time
 import requests
 import os
 
-__all__ = ('indeed', 'linkedin', 'zip_recruiter', 'dice', 'ladders', 'flexjobs' , 'builtin', 'themuse')
-
+# __all__ = ('indeed', 'linkedin', 'zip_recruiter', 'dice', 'ladders', 'flexjobs' , 'builtin', 'themuse')
+__all__ = ('indeed', 'linkedin', 'dice', 'flexjobs' , 'builtin', 'themuse')
 ua = UserAgent()
 headers = {'User-Agent': ua.random}
 
@@ -107,32 +107,32 @@ def linkedin(url, city=None, language=None):
     return jobs, errors
 
 
-def zip_recruiter(url, city=None, language=None):
-    driver = initialize_driver(url)
-    html = driver.page_source
+# def zip_recruiter(url, city=None, language=None):
+#     driver = initialize_driver(url)
+#     html = driver.page_source
 
-    jobs = []
-    errors = []
+#     jobs = []
+#     errors = []
 
-    if html:
-        soup = BS(html, 'html.parser')
-        job_articles = soup.find_all('article', class_='new_job_item')
+#     if html:
+#         soup = BS(html, 'html.parser')
+#         job_articles = soup.find_all('article', class_='new_job_item')
 
-        for article in job_articles:
-            job_title = article.find('h2', class_='title').get_text(strip=True)
-            company_name = article.find('span', class_='company_name').get_text(strip=True)
-            href_div = article.find('div', 'job_title_raw')
-            href = href_div.a['href']
-            content = article.find('p', 'job_snippet').get_text(strip=True)
+#         for article in job_articles:
+#             job_title = article.find('h2', class_='title').get_text(strip=True)
+#             company_name = article.find('span', class_='company_name').get_text(strip=True)
+#             href_div = article.find('div', 'job_title_raw')
+#             href = href_div.a['href']
+#             content = article.find('p', 'job_snippet').get_text(strip=True)
 
-            jobs.append({'title': job_title, 'url': href,
-                         'description': content, 'company': company_name,
-                         'city_id': city, 'language_id': language})
-    else:
-        errors.append({'url': url, 'title': "Div does not exists"})
+#             jobs.append({'title': job_title, 'url': href,
+#                          'description': content, 'company': company_name,
+#                          'city_id': city, 'language_id': language})
+#     else:
+#         errors.append({'url': url, 'title': "Div does not exists"})
 
-    close_driver(driver)
-    return jobs, errors
+#     close_driver(driver)
+#     return jobs, errors
 
 
 
@@ -162,40 +162,40 @@ def dice(url, city=None, language=None):
     return jobs, errors
 
 
-def ladders(url, city=None, language=None):
-    driver = initialize_driver(url)
-    html = driver.page_source
-    domain = 'https://www.theladders.com'
-    jobs = []
-    errors = []
+# def ladders(url, city=None, language=None):
+#     driver = initialize_driver(url)
+#     html = driver.page_source
+#     domain = 'https://www.theladders.com'
+#     jobs = []
+#     errors = []
 
-    if html:
-        soup = BS(html, 'html.parser')
-        main_div = soup.find('div', 'job-list-pagination-jobs')
+#     if html:
+#         soup = BS(html, 'html.parser')
+#         main_div = soup.find('div', 'job-list-pagination-jobs')
 
-        if main_div:  # Проверка, что main_div был найден
-            job_cards = main_div.find_all('div', 'guest-job-card-container')
-            if job_cards:
-                for job in job_cards:
-                    job_title = job.find('div', 'job-card-text-container')
-                    title_el = job_title.find('p', 'job-link-wrapper')
-                    title = title_el.a.text.strip()
-                    href = title_el.a['href']
-                    company = job.find('span', 'job-card-company-name').get_text(strip=True)
-                    content = job.find('p', 'job-card-description').get_text(strip=True)
+#         if main_div:  # Проверка, что main_div был найден
+#             job_cards = main_div.find_all('div', 'guest-job-card-container')
+#             if job_cards:
+#                 for job in job_cards:
+#                     job_title = job.find('div', 'job-card-text-container')
+#                     title_el = job_title.find('p', 'job-link-wrapper')
+#                     title = title_el.a.text.strip()
+#                     href = title_el.a['href']
+#                     company = job.find('span', 'job-card-company-name').get_text(strip=True)
+#                     content = job.find('p', 'job-card-description').get_text(strip=True)
 
-                    jobs.append({'title': title, 'url': domain + href,
-                                 'description': content, 'company': company,
-                                 'city_id': city, 'language_id': language})
-            else:
-                errors.append({'url': url, 'title': "No job cards found"})
-        else:
-            errors.append({'url': url, 'title': "No main_div found"})
-    else:
-        errors.append({'url': url, 'title': "Page do not response"})
+#                     jobs.append({'title': title, 'url': domain + href,
+#                                  'description': content, 'company': company,
+#                                  'city_id': city, 'language_id': language})
+#             else:
+#                 errors.append({'url': url, 'title': "No job cards found"})
+#         else:
+#             errors.append({'url': url, 'title': "No main_div found"})
+#     else:
+#         errors.append({'url': url, 'title': "Page do not response"})
 
-    close_driver(driver)
-    return jobs, errors
+#     close_driver(driver)
+#     return jobs, errors
 
 
 def is_valid_job(title):
